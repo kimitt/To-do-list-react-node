@@ -22,7 +22,16 @@ socketIO.on('connection', (socket) => {
         todoList.unshift(todo);
 
         socket.emit("todos", todoList)
-    })
+    });
+
+    socket.on("viewComments", (id) => {
+        for (let i = 0; i < todoList.length; i++) {
+          if (id === todoList[i].id) {
+            socket.emit("commentsReceived", todoList[i]);
+          }
+        }
+      });
+
     //할일 목록에서 id 값을 받아와서 삭제
     socket.on("deleteTodo", (id) => {
         console.log(id)
